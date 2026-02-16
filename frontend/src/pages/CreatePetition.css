@@ -1,0 +1,104 @@
+.create-petition-container {
+  background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+  min-height: 100vh;
+  padding: 40px 20px;
+}
+
+.create-petition-wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.create-petition-header {
+  background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%);
+  padding: 50px 40px;
+  text-align: center;
+  color: white;
+}
+
+.create-petition-header h2 {
+  margin: 0;
+  font-size: 2.5em;
+  font-weight: 700;
+}
+
+.create-petition-header p {
+  margin: 15px 0 0 0;
+  font-size: 1.1em;
+  opacity: 0.95;
+}
+
+.create-petition-form {
+  padding: 40px;
+}
+
+.petition-form-group {
+  margin-bottom: 25px;
+}
+
+.petition-form-group label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 700;
+  color: #333;
+  font-size: 1em;
+}
+
+.petition-form-group input,
+.petition-form-group textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1em;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  resize: vertical;
+  min-height: 100px;
+}
+
+.petition-form-group textarea {
+  min-height: 120px;
+}
+
+.petition-form-group input:focus,
+.petition-form-group textarea:focus {
+  outline: none;
+  border-color: #ff6b35;
+  box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.1);
+}
+
+.petition-submit-btn {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1em;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.petition-submit-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(255, 107, 53, 0.4);
+}
+
+.petition-submit-btn:active {
+  transform: translateY(-1px);
+}
+
+.petition-help-text {
+  color: #999;
+  font-size: 0.85em;
+  margin-top: 6px;
+  font-style: italic;
+}
