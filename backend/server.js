@@ -1,31 +1,57 @@
-const express = require("express");
-const cors = require("cors");
+// Load environment variables first
 const dotenv = require("dotenv");
-
 dotenv.config();
 
-const connectDB = require("./src/config/db");
-const authRoutes = require("./src/routes/authRoutes");
+// Import packages
+const express = require("express");
+const cors = require("cors");
 
+// Import database connection
+const connectDB = require("./src/config/db");
+
+// Import routes
+const authRoutes = require("./src/routes/authRoutes");
+const petitionRoutes = require("./src/routes/petitionRoutes");
+
+// Initialize express app
 const app = express();
 
-// connect database
+
+// Connect to MongoDB
 connectDB();
 
-// middleware
+
+// Middlewares
 app.use(cors());
 app.use(express.json());
 
-// IMPORTANT LINE 👇
-app.use("/api/auth", authRoutes);
 
-// test route
+// Test route
 app.get("/", (req, res) => {
-  res.send("Server running");
+  res.send("Civix backend server running successfully 🚀");
 });
 
-const PORT = 3000;
+
+// Routes
+app.use("/api/auth", authRoutes);
+app.use("/api/petitions", petitionRoutes);
+const { protect } = require("./src/middleware/authMiddleware");
+
+app.get("/api/profile", protect, (req, res) => {
+  res.json({
+    message: "Protected route accessed successfully",
+    user: req.user
+  });
+});
+app.use((req, res) => {
+  res.status(404).json({
+    message: "Route not found"
+  });
+});
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
+  console.log(`====================================`);
   console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`====================================`);
 });
