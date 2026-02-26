@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import API from "../services/api";
+import AlertMessage from "../components/AlertMessage";
  
 const Register = () => {
  
@@ -12,14 +13,12 @@ const Register = () => {
     password: "",
     confirmPassword: "",
     role: "Citizen",
-    location: "",
-    idFile: null
+    location: ""
   });
  
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
  
-  // Detect Geolocation
   const detectLocation = () => {
     if (!navigator.geolocation) {
       setError("Geolocation not supported");
@@ -28,24 +27,18 @@ const Register = () => {
  
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        setForm({
-          ...form,
-          location: `Lat: ${position.coords.latitude}, Lng: ${position.coords.longitude}`
-        });
+        setForm((prev) => ({
+          ...prev,
+          location: `${position.coords.latitude}, ${position.coords.longitude}`
+        }));
         setError("");
       },
-      () => {
-        setError("Unable to fetch location");
-      }
+      () => setError("Unable to fetch location")
     );
   };
  
   const handleChange = (e) => {
-    if (e.target.name === "idFile") {
-      setForm({ ...form, idFile: e.target.files[0] });
-    } else {
-      setForm({ ...form, [e.target.name]: e.target.value });
-    }
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
  
   const handleSubmit = async (e) => {
@@ -59,61 +52,41 @@ const Register = () => {
     }
  
     try {
-      const formData = new FormData();
-      formData.append("name", form.name);
-      formData.append("email", form.email);
-      formData.append("password", form.password);
-      formData.append("role", form.role);
-      formData.append("location", form.location);
  
-      if (form.idFile) {
-        formData.append("idFile", form.idFile);
-      }
- 
-      await API.post("/auth/register", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        }
+      await API.post("/auth/register", {
+        name: form.name,
+        email: form.email,
+        password: form.password,
+        role: form.role,
+        location: form.location
       });
  
-      setMessage("Registration Successful! Redirecting to login...");
- 
-      setTimeout(() => {
-        navigate("/");
-      }, 2000);
+      setMessage("Registered successfully");
+      setTimeout(() => navigate("/"), 1500);
  
     } catch (err) {
-      console.log(err.response?.data);
       setError(
         err.response?.data?.message ||
-        "Registration Failed. Please try again."
+        "Registration Failed"
       );
     }
   };
  
   return (
-    <div className="d-flex align-items-center justify-content-center vh-100 gradient-bg">
-      <div className="card p-4 shadow-lg rounded-4" style={{ width: "420px" }}>
-        <h3 className="text-center mb-3">Create Account</h3>
+<div className="d-flex align-items-center justify-content-center vh-100 gradient-bg">
+<div className="card p-3 shadow-sm" style={{ width: "320px" }}>
  
-        {error && (
-          <div className="alert alert-danger">
-            {error}
-          </div>
-        )}
+        <h6 className="text-center mb-2 fw-bold">Register</h6>
  
-        {message && (
-          <div className="alert alert-success">
-            {message}
-          </div>
-        )}
+        <AlertMessage type="danger" message={error} onClose={() => setError("")} />
+<AlertMessage type="success" message={message} onClose={() => setMessage("")} />
  
         <form onSubmit={handleSubmit}>
  
           <input
             type="text"
             name="name"
-            className="form-control mb-2"
+            className="form-control form-control-sm mb-2"
             placeholder="Full Name"
             onChange={handleChange}
             required
@@ -122,7 +95,7 @@ const Register = () => {
           <input
             type="email"
             name="email"
-            className="form-control mb-2"
+            className="form-control form-control-sm mb-2"
             placeholder="Email"
             onChange={handleChange}
             required
@@ -131,7 +104,7 @@ const Register = () => {
           <input
             type="password"
             name="password"
-            className="form-control mb-2"
+            className="form-control form-control-sm mb-2"
             placeholder="Password"
             onChange={handleChange}
             required
@@ -140,7 +113,7 @@ const Register = () => {
           <input
             type="password"
             name="confirmPassword"
-            className="form-control mb-2"
+            className="form-control form-control-sm mb-2"
             placeholder="Confirm Password"
             onChange={handleChange}
             required
@@ -148,55 +121,46 @@ const Register = () => {
  
           <select
             name="role"
-            className="form-select mb-2"
+            className="form-select form-select-sm mb-2"
             onChange={handleChange}
-          >
-            <option value="Citizen">Citizen</option>
-            <option value="Government Official">Government Official</option>
-          </select>
+>
+<option value="Citizen">Citizen</option>
+<option value="Government Official">Official</option>
+</select>
  
-          <div className="d-grid mb-2">
-            <button
-              type="button"
-              className="btn btn-outline-secondary"
-              onClick={detectLocation}
-            >
-              Detect Location
-            </button>
-          </div>
+          <button
+            type="button"
+            className="btn btn-outline-secondary btn-sm w-100 mb-2"
+            onClick={detectLocation}
+>
+            Detect Location
+</button>
  
           <input
             type="text"
             name="location"
-            className="form-control mb-2"
+            className="form-control form-control-sm mb-2"
             placeholder="Location"
             value={form.location}
             readOnly
           />
  
-          <input
-            type="file"
-            name="idFile"
-            className="form-control mb-3"
-            onChange={handleChange}
-          />
- 
-          <button className="btn btn-primary w-100">
+          <button className="btn btn-primary btn-sm w-100">
             Register
-          </button>
+</button>
+ 
         </form>
  
-        <p className="text-center mt-3 mb-0">
+        <p className="text-center mt-2 small">
           Already registered?{" "}
-          <Link to="/" className="fw-semibold text-primary text-decoration-none">
+<Link to="/" className="text-decoration-none fw-semibold">
             Login
-          </Link>
-        </p>
+</Link>
+</p>
  
       </div>
-    </div>
+</div>
   );
 };
  
 export default Register;
- 

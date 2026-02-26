@@ -1,5 +1,5 @@
-import { polls } from "@/data/mockData";
-import { StatusBadge } from "@/components/StatusBadge";
+import { polls } from "../data/mockData";
+import { StatusBadge } from "../components/StatusBadge";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
 const tooltipStyle = {
