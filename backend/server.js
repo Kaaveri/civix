@@ -12,6 +12,7 @@ const connectDB = require("./src/config/db");
 // Import routes
 const authRoutes = require("./src/routes/authRoutes");
 const petitionRoutes = require("./src/routes/petitionRoutes");
+const pollRoutes = require("./src/routes/pollRoutes");
 
 // Initialize express app
 const app = express();
@@ -36,6 +37,7 @@ const PORT = process.env.PORT || 5000;
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/petitions", petitionRoutes);
+app.use("/api/polls", pollRoutes);
 const { protect } = require("./src/middleware/authMiddleware");
 
 app.get("/api/profile", protect, (req, res) => {
