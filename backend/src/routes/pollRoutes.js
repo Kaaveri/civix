@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
-
-const { getPollResults } = require("../controllers/pollController");
+const { createPoll, getPolls, getPollResults } = require("../controllers/pollController");
 const { voteOnPoll, removeVote } = require("../controllers/voteController");
 
 const { protect } = require("../middleware/authMiddleware");
+const { isOfficial } = require("../middleware/roleMiddleware");
 const { allowRoles } = require("../middleware/role");
 
 // Citizen votes or changes vote
@@ -15,5 +15,11 @@ router.delete("/:id/vote", protect, allowRoles("citizen"), removeVote);
 
 // Public poll results (for graphs)
 router.get("/:id/results", getPollResults);
+// Only officials can create polls
+router.post("/", protect, isOfficial, createPoll);
+
+// Anyone logged in can view polls
+router.get("/", protect, getPolls);
+
 
 module.exports = router;

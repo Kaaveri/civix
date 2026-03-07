@@ -14,6 +14,8 @@ const authRoutes = require("./src/routes/authRoutes");
 const petitionRoutes = require("./src/routes/petitionRoutes");
 const pollRoutes = require("./src/routes/pollRoutes");
 
+// const pollRoutes = require("./routes/pollRoutes");
+
 // Initialize express app
 const app = express();
 
