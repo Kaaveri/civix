@@ -28,7 +28,7 @@ app.use(express.json());
 
 // Test route
 app.get("/", (req, res) => {
-  res.send("Civix backend server running successfully 🚀");
+  res.send("Civix backend server running successfully");
 });
 
 const PORT = process.env.PORT || 5000;
@@ -52,7 +52,5 @@ app.use((req, res) => {
 
 
 app.listen(PORT, () => {
-  console.log(`====================================`);
   console.log(`Server running on http://localhost:${PORT}`);
-  console.log(`====================================`);
 });
