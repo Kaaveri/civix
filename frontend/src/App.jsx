@@ -1,34 +1,42 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Analytics from "./pages/analytics";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
 import Login from "./pages/login";
 import Register from "./pages/register";
 import Forgotpassword from "./pages/forgotpassword";
-import Index from "./pages/Index";
-import NotFound from "./pages/notfound";
-import PetitionDetail from "./pages/PetitionDetail";
+
+import Index from "./pages/Index"; // make sure file name matches exactly
 import Petitions from "./pages/Petitions";
+import PetitionDetail from "./pages/PetitionDetail";
 import Polls from "./pages/Polls";
 import Reports from "./pages/Reports";
+import Analytics from "./pages/analytics";
+import NotFound from "./pages/notfound";
+
 import "./App.css";
 
 function App() {
   return (
     <BrowserRouter>
-      <div style={{ width: "100%", minHeight: "100vh" }}>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/analytics" element={<Analytics />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/index" element={<Index />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/forgotpassword" element={<Forgotpassword />} />
-          <Route path="/notfound" element={<NotFound />} />
-          <Route path="/PetitionDetail" element={<PetitionDetail />} />
-          <Route path="/petitions" element={<Petitions />} />
-          <Route path="/polls" element={<Polls />} />
-          <Route path="/reports" element={<Reports />} />
-        </Routes>
-      </div>
+      <Routes>
+        {/* default */}
+        <Route path="/" element={<Navigate to="/login" />} />
+
+        {/* auth */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/forgotpassword" element={<Forgotpassword />} />
+
+        {/* pages */}
+        <Route path="/index" element={<Index />} />
+        <Route path="/petitions" element={<Petitions />} />
+        <Route path="/petitions/:id" element={<PetitionDetail />} />
+        <Route path="/polls" element={<Polls />} />
+        <Route path="/reports" element={<Reports />} />
+        <Route path="/analytics" element={<Analytics />} />
+
+        {/* not found */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </BrowserRouter>
   );
 }
