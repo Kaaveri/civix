@@ -24,9 +24,19 @@ exports.createPoll = async (req, res) => {
   }
 };
 // GET /api/polls
+// GET /api/polls?location=Pune
 exports.getPolls = async (req, res) => {
   try {
-    const polls = await Poll.find()
+
+    const location = req.query.location;
+
+    let filter = {};
+
+    if (location) {
+      filter.targetLocation = location;
+    }
+
+    const polls = await Poll.find(filter)
       .populate("createdBy", "name role")
       .sort({ createdAt: -1 });
 
@@ -73,3 +83,22 @@ exports.getPollResults = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+// GET /api/polls/:id
+exports.getPollById = async (req, res) => {
+  try {
+
+    const poll = await Poll.findById(req.params.id)
+      .populate("createdBy", "name role");
+
+    if (!poll) {
+      return res.status(404).json({ message: "Poll not found" });
+    }
+
+    res.json(poll);
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
