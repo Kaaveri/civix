@@ -22,6 +22,7 @@ const authRoutes = require("./src/routes/authRoutes");
 const petitionRoutes = require("./src/routes/petitionRoutes");
 const pollRoutes = require("./src/routes/pollRoutes");
 const responseRoutes = require("./src/routes/responseRoutes");
+const reportRoutes = require("./src/routes/reportRoutes");
 
 // ===============================
 // INIT APP
@@ -57,6 +58,7 @@ app.use("/api/responses", responseRoutes);
 // ===============================
 // PROTECTED ROUTE (TEST)
 // ===============================
+app.use("/api/reports", reportRoutes);
 const { protect } = require("./src/middleware/authMiddleware");
 
 app.get("/api/profile", protect, (req, res) => {

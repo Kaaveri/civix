@@ -29,8 +29,8 @@ const petitionSchema = new mongoose.Schema(
     // ✅ FIXED STATUS ENUM
     status: {
       type: String,
-      enum: ["pending", "in_progress", "resolved", "rejected"],
-      default: "pending"
+      enum: ["active", "under_review", "closed"],
+      default: "under_review",
     },
 
     createdBy: {
