@@ -1,0 +1,104 @@
+/* Full screen center with gradient background */
+.register-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Card with modern shadow */
+.register-card {
+  width: 400px;
+  padding: 40px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+/* Heading */
+.register-card h2 {
+  margin-bottom: 30px;
+  color: #2d3748;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+/* Inputs & Select */
+.register-card input,
+.register-card select {
+  width: 100%;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.register-card input:focus,
+.register-card select:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* Detect button */
+.detect-btn {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 16px;
+  border: 2px solid #667eea;
+  background: white;
+  color: #667eea;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.detect-btn:hover {
+  background: #667eea;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+/* Register button */
+.register-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.register-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* Login link */
+.login-link {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #718096;
+}
+
+.login-link a {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}

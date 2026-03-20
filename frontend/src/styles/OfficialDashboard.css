@@ -1,0 +1,281 @@
+.official-container {
+  min-height: 100vh;
+  /* Match global/login gradient for consistency */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 40px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.official-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 28px 36px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin-bottom: 32px;
+}
+
+.official-role {
+  color: #718096;
+  margin: 0;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.official-header h2 {
+  margin: 4px 0 0 0;
+  color: #2d3748;
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.official-logout {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  font-size: 15px;
+}
+
+.official-logout:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(245, 87, 108, 0.4);
+}
+
+/* Stats Grid */
+.official-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.official-stat-card {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition: all 0.3s ease;
+}
+
+.official-stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.stat-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+}
+
+.stat-icon.pending {
+  background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+}
+
+.stat-icon.polls {
+  background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
+}
+
+.stat-icon.reports {
+  background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);
+}
+
+.stat-icon.citizens {
+  background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+}
+
+.stat-content h3 {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 700;
+  color: #2d3748;
+}
+
+.stat-content p {
+  margin: 4px 0 0 0;
+  font-size: 14px;
+  color: #718096;
+  font-weight: 500;
+}
+
+/* Section */
+.official-section {
+  margin-bottom: 32px;
+}
+
+.section-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 20px;
+}
+
+/* Petitions List */
+.petitions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.petition-review-card {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  transition: all 0.3s ease;
+}
+
+.petition-review-card:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.petition-info {
+  flex: 1;
+}
+
+.petition-info h4 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  color: #2d3748;
+  font-weight: 600;
+}
+
+.petition-info p {
+  margin: 0 0 12px 0;
+  color: #718096;
+  line-height: 1.5;
+}
+
+.petition-meta {
+  display: flex;
+  gap: 20px;
+  font-size: 14px;
+}
+
+.signature-count {
+  color: #667eea;
+  font-weight: 500;
+}
+
+.petition-date {
+  color: #a0aec0;
+}
+
+.petition-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.approve-btn,
+.reject-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.approve-btn {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  color: white;
+}
+
+.approve-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(17, 153, 142, 0.4);
+}
+
+.reject-btn {
+  background: white;
+  color: #e53e3e;
+  border: 2px solid #e53e3e;
+}
+
+.reject-btn:hover {
+  background: #e53e3e;
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Action Cards Grid */
+.official-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.official-card {
+  background: white;
+  padding: 28px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.official-card.clickable {
+  cursor: pointer;
+}
+
+.official-card.clickable:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+}
+
+.card-icon {
+  font-size: 36px;
+  margin-bottom: 16px;
+}
+
+.official-card h3 {
+  color: #2d3748;
+  font-size: 18px;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.official-card p {
+  color: #718096;
+  line-height: 1.6;
+  margin: 0;
+  flex: 1;
+}
+
+.card-footer {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.view-link {
+  color: #667eea;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.official-card:hover .view-link {
+  color: #764ba2;
+}

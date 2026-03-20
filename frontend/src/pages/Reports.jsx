@@ -1,137 +1,114 @@
-import "../pages/Reports.css";
+import { useState } from "react";
+import API from "../services/api";
+import "../styles/Reports.css";
 
-function Reports() {
+const Reports = () => {
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    category: "Infrastructure",
+    location: ""
+  });
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await API.post("/reports", formData);
+      setMessage("success");
+      setFormData({ title: "", description: "", category: "Infrastructure", location: "" });
+      setTimeout(() => setMessage(""), 3000);
+    } catch (error) {
+      setMessage("error");
+      console.error("Error submitting report:", error);
+    }
+  };
+
   return (
     <div className="reports-container">
+      <h3 className="reports-heading">📋 Report an Issue</h3>
+
       <div className="reports-wrapper">
-        <div className="reports-header">
-          <h2>Reports & Analytics</h2>
-          <p>Track engagement and impact across the platform</p>
+        {message && (
+          <div className={`message ${message === "success" ? "success" : "error"}`}>
+            {message === "success" 
+              ? "✓ Report submitted successfully! We'll review it within 48 hours."
+              : "✗ Failed to submit report. Please try again."}
+          </div>
+        )}
+
+        <div className="report-card">
+          <h4>Submit a New Report</h4>
+          <form onSubmit={handleSubmit} className="report-form">
+            <div className="form-group">
+              <label className="form-label">Issue Title</label>
+              <input
+                type="text"
+                placeholder="Brief title of the issue"
+                value={formData.title}
+                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                required
+                className="form-input"
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">Description</label>
+              <textarea
+                placeholder="Detailed description of the issue"
+                value={formData.description}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                required
+                className="form-textarea"
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">Category</label>
+              <select
+                value={formData.category}
+                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                className="form-select"
+              >
+                <option value="Infrastructure">Infrastructure</option>
+                <option value="Safety">Safety</option>
+                <option value="Environment">Environment</option>
+                <option value="Public Services">Public Services</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">Location</label>
+              <input
+                type="text"
+                placeholder="Location of the issue"
+                value={formData.location}
+                onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                required
+                className="form-input"
+              />
+            </div>
+
+            <button type="submit" className="submit-button">
+              Submit Report
+            </button>
+          </form>
         </div>
 
-        <div className="reports-grid">
-          {/* Petition Report Card */}
-          <div className="report-card">
-            <div className="report-card-header">
-              <div className="report-icon">📋</div>
-              <div className="report-header-text">
-                <h3>Petitions</h3>
-                <p>Active campaigns</p>
-              </div>
-            </div>
-            <div className="report-card-body">
-              <div className="report-stat">
-                <span className="report-stat-label">Total Petitions</span>
-                <span className="report-stat-value">24</span>
-              </div>
-              <div className="report-stat">
-                <span className="report-stat-label">Active Campaigns</span>
-                <span className="report-stat-value">8</span>
-              </div>
-              <div className="report-stat">
-                <span className="report-stat-label">Total Signatures</span>
-                <span className="report-stat-value">2,341</span>
-              </div>
-              <div className="report-stat">
-                <span className="report-stat-label">Avg. Signatures/Petition</span>
-                <span className="report-stat-value">98</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Polls Report Card */}
-          <div className="report-card">
-            <div className="report-card-header">
-              <div className="report-icon">📊</div>
-              <div className="report-header-text">
-                <h3>Polls</h3>
-                <p>Community feedback</p>
-              </div>
-            </div>
-            <div className="report-card-body">
-              <div className="report-stat">
-                <span className="report-stat-label">Total Polls</span>
-                <span className="report-stat-value">15</span>
-              </div>
-              <div className="report-stat">
-                <span className="report-stat-label">Active Polls</span>
-                <span className="report-stat-value">3</span>
-              </div>
-              <div className="report-stat">
-                <span className="report-stat-label">Total Responses</span>
-                <span className="report-stat-value">1,246</span>
-              </div>
-              <div className="report-stat">
-                <span className="report-stat-label">Avg. Participation</span>
-                <span className="report-stat-value">83</span>
-              </div>
-            </div>
-          </div>
-
-          {/* User Report Card */}
-          <div className="report-card">
-            <div className="report-card-header">
-              <div className="report-icon">👥</div>
-              <div className="report-header-text">
-                <h3>Users</h3>
-                <p>Community engagement</p>
-              </div>
-            </div>
-            <div className="report-card-body">
-              <div className="report-stat">
-                <span className="report-stat-label">Total Users</span>
-                <span className="report-stat-value">342</span>
-              </div>
-              <div className="report-stat">
-                <span className="report-stat-label">Active Users</span>
-                <span className="report-stat-value">187</span>
-              </div>
-              <div className="report-stat">
-                <span className="report-stat-label">New This Month</span>
-                <span className="report-stat-value">34</span>
-              </div>
-              <div className="report-stat">
-                <span className="report-stat-label">Engagement Rate</span>
-                <span className="report-stat-value">54.7%</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Chart Section */}
-        <div className="report-chart-container">
-          <h2 className="report-chart-title">Engagement Trends</h2>
-          <div className="chart-placeholder">
-            <p>Signature & Poll Response Trends Chart</p>
-            <p style={{ fontSize: "0.9em", marginTop: "10px" }}>Monthly activity visualization</p>
-          </div>
-        </div>
-
-        {/* Summary Section */}
-        <div className="reports-summary">
-          <h2 className="summary-title">Platform Summary</h2>
-          <div className="summary-grid">
-            <div className="summary-item">
-              <div className="summary-item-value">2,341</div>
-              <div className="summary-item-label">Total Signatures</div>
-            </div>
-            <div className="summary-item">
-              <div className="summary-item-value">1,246</div>
-              <div className="summary-item-label">Poll Responses</div>
-            </div>
-            <div className="summary-item">
-              <div className="summary-item-value">342</div>
-              <div className="summary-item-label">Community Members</div>
-            </div>
-            <div className="summary-item">
-              <div className="summary-item-value">+24%</div>
-              <div className="summary-item-label">Growth This Month</div>
-            </div>
-          </div>
+        <div className="report-card">
+          <h4>📌 Report Guidelines</h4>
+          <ul className="guidelines-list">
+            <li>Provide clear and accurate information</li>
+            <li>Include specific location details</li>
+            <li>Attach photos if possible (feature coming soon)</li>
+            <li>Reports are reviewed within 48 hours</li>
+            <li>You'll receive updates via email</li>
+          </ul>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Reports;

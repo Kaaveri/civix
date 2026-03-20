@@ -1,51 +1,191 @@
-import "../pages/CreatePetition.css";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Card } from "@/components/ui/card";
+import styles from "./createPetition.module.css";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-function CreatePetition() {
+const CreatePetition = () => {
+  const navigate = useNavigate();
+
+  const [form, setForm] = useState({
+    title: "",
+    category: "",
+    location: "",
+    target: "",
+    description: "",
+  });
+
+  const categories = [
+    "Infrastructure",
+    "Environment",
+    "Education",
+    "Healthcare",
+    "Transport",
+    "Public Safety",
+  ];
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleCategoryChange = (value) => {
+    setForm({ ...form, category: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const petitionData = {
+      title: form.title,
+      category: form.category,
+      location: form.location,
+      target: Number(form.target),
+      description: form.description,
+      createdDate: new Date().toISOString(),
+      updatedDate: null,
+    };
+
+    try {
+      const response = await fetch("http://localhost:3000/api/petitions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(petitionData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("Petition created successfully!");
+        navigate("/petitions");
+      } else {
+        alert(data.message || "Failed to create petition");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Server error. Please check backend.");
+    }
+  };
+
   return (
-    <div className="create-petition-container">
-      <div className="create-petition-wrapper">
-        <div className="create-petition-header">
-          <h2>Create Petition</h2>
-          <p>Start a movement. Let your voice be heard.</p>
-        </div>
-        <form className="create-petition-form">
-          <div className="petition-form-group">
-            <label>Petition Title</label>
-            <input type="text" placeholder="Give your petition a clear, compelling title" required />
-            <p className="petition-help-text">Be specific and action-oriented</p>
+    <div className={styles.container}>
+      <Card className={styles.card}>
+        <h1 className={styles.title}>Create New Petition</h1>
+
+        <p className={styles.subtitle}>
+          Fill the details below to start a new petition.
+        </p>
+
+        <form onSubmit={handleSubmit} className={styles.form}>
+          
+          {/* Title */}
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Title</label>
+
+            <Input
+              name="title"
+              value={form.title}
+              onChange={handleChange}
+              placeholder="Enter petition title"
+              className={styles.input}
+              required
+            />
           </div>
 
-          <div className="petition-form-group">
-            <label>Description</label>
-            <textarea placeholder="Explain why this petition matters. What change are you seeking?" required />
-            <p className="petition-help-text">Include relevant context and background information</p>
+          {/* Category */}
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Category</label>
+
+            <Select
+              value={form.category}
+              onValueChange={handleCategoryChange}
+            >
+              <SelectTrigger className={styles.selectTrigger}>
+                <SelectValue placeholder="Select category" />
+              </SelectTrigger>
+
+              <SelectContent className={styles.selectContent}>
+                {categories.map((cat) => (
+                  <SelectItem key={cat} value={cat}>
+                    {cat}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
-          <div className="petition-form-group">
-            <label>Target Audience</label>
-            <input type="text" placeholder="Who should address this petition? (e.g., City Council, Mayor)" required />
+          {/* Location */}
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Location</label>
+
+            <Input
+              name="location"
+              value={form.location}
+              onChange={handleChange}
+              placeholder="Enter location"
+              className={styles.input}
+              required
+            />
           </div>
 
-          <div className="petition-form-group">
-            <label>Category</label>
-            <select required>
-              <option value="">Select a category</option>
-              <option value="environment">Environment</option>
-              <option value="education">Education</option>
-              <option value="health">Health & Safety</option>
-              <option value="infrastructure">Infrastructure</option>
-              <option value="social">Social Issues</option>
-              <option value="other">Other</option>
-            </select>
+          {/* Target */}
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Target Signatures</label>
+
+            <Input
+              name="target"
+              type="number"
+              value={form.target}
+              onChange={handleChange}
+              placeholder="5000"
+              className={styles.input}
+              required
+            />
           </div>
 
-          <button type="submit" className="petition-submit-btn">
-            Create Petition
-          </button>
+          {/* Description */}
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Description</label>
+
+            <Textarea
+              name="description"
+              value={form.description}
+              onChange={handleChange}
+              placeholder="Describe your petition..."
+              className={styles.textarea}
+              required
+            />
+          </div>
+
+          {/* Buttons */}
+          <div className={styles.buttonGroup}>
+            <Button
+              type="button"
+              className={styles.buttonOutline}
+              onClick={() => navigate("/petitions")}
+            >
+              Cancel
+            </Button>
+
+            <Button type="submit" className={styles.buttonPrimary}>
+              Create Petition
+            </Button>
+          </div>
+
         </form>
-      </div>
+      </Card>
     </div>
   );
-}
+};
 
 export default CreatePetition;
