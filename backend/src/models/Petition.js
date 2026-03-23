@@ -2,32 +2,53 @@ const mongoose = require("mongoose");
 
 const petitionSchema = new mongoose.Schema(
   {
-    title: { type: String, required: true },
-    description: { type: String, required: true },
+    title: {
+      type: String,
+      required: true,
+      trim: true
+    },
 
-    location: { type: String, required: true },
-    category: { type: String, required: true },
+    description: {
+      type: String,
+      required: true,
+      trim: true
+    },
 
+    location: {
+      type: String,
+      required: true,
+      trim: true
+    },
+
+    category: {
+      type: String,
+      required: true,
+      trim: true
+    },
+
+    // ✅ FIXED STATUS ENUM
     status: {
       type: String,
-      enum: ["active", "under review", "closed"],
-      default: "under review",
+      enum: ["pending", "in_progress", "resolved", "rejected"],
+      default: "pending"
     },
 
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true,
+      required: true
     },
 
     signatures: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
+        ref: "User"
+      }
+    ]
   },
-  { timestamps: true }
+  {
+    timestamps: true
+  }
 );
 
 module.exports = mongoose.model("Petition", petitionSchema);

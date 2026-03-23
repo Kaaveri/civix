@@ -1,30 +1,47 @@
 const express = require("express");
 const router = express.Router();
 
+// CONTROLLERS
 const {
   createPetition,
   getAllPetitions,
   getPetitionById,
   updatePetition,
   signPetition,
+  updateStatus
 } = require("../controllers/petitionController");
 
+// MIDDLEWARE
 const { protect } = require("../middleware/authMiddleware");
 
-
-// Create petition
+// ===============================
+// CREATE PETITION
+// ===============================
 router.post("/", protect, createPetition);
 
-// Get all petitions (with filter)
+// ===============================
+// GET ALL PETITIONS
+// ===============================
 router.get("/", getAllPetitions);
 
-// Get by ID
+// ===============================
+// GET PETITION BY ID
+// ===============================
 router.get("/:id", getPetitionById);
 
-// Update petition
+// ===============================
+// UPDATE PETITION
+// ===============================
 router.put("/:id", protect, updatePetition);
 
-// Sign petition
+// ===============================
+// UPDATE STATUS
+// ===============================
+router.patch("/:id/status", protect, updateStatus);
+
+// ===============================
+// SIGN PETITION
+// ===============================
 router.post("/:id/sign", protect, signPetition);
 
 module.exports = router;

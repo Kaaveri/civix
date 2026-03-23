@@ -1,53 +1,72 @@
 const Petition = require("../models/Petition");
 
+// ===============================
+// CREATE PETITION
+// ===============================
 exports.createPetition = async (req, res) => {
   try {
     const { title, description, location, category } = req.body;
+
+    if (!title || !description || !location || !category) {
+      return res.status(400).json({
+        message: "All fields are required"
+      });
+    }
 
     const petition = await Petition.create({
       title,
       description,
       location,
       category,
-      createdBy: req.user.id,
+      status: "pending",
+      createdBy: req.user.id
     });
 
     res.status(201).json({
       message: "Petition created successfully",
-      petition,
+      petition
     });
 
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({
+      message: "Error creating petition",
+      error: error.message
+    });
   }
 };
 
+// ===============================
+// GET ALL PETITIONS
+// ===============================
 exports.getAllPetitions = async (req, res) => {
   try {
     const filters = {};
 
-    if (req.query.location) {
-      filters.location = req.query.location;
-    }
-
-    if (req.query.category) {
-      filters.category = req.query.category;
-    }
-
-    if (req.query.status) {
-      filters.status = req.query.status;
-    }
+    if (req.query.location) filters.location = req.query.location;
+    if (req.query.category) filters.category = req.query.category;
+    if (req.query.status) filters.status = req.query.status;
 
     const petitions = await Petition.find(filters)
       .populate("createdBy", "name email")
-      .populate("signatures", "name");
+      .populate("signatures", "name")
+      .sort({ createdAt: -1 });
 
-    res.json(petitions);
+    res.json({
+      count: petitions.length,
+      petitions
+    });
 
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({
+      message: "Error fetching petitions",
+      error: error.message
+    });
   }
 };
+
+// ===============================
+// GET PETITION BY ID
+// ===============================
 exports.getPetitionById = async (req, res) => {
   try {
     const petition = await Petition.findById(req.params.id)
@@ -55,64 +74,123 @@ exports.getPetitionById = async (req, res) => {
       .populate("signatures", "name");
 
     if (!petition) {
-      return res.status(404).json({ message: "Petition not found" });
+      return res.status(404).json({
+        message: "Petition not found"
+      });
     }
 
     res.json(petition);
 
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({
+      message: "Error fetching petition",
+      error: error.message
+    });
   }
 };
+
+// ===============================
+// UPDATE PETITION (OWNER ONLY)
+// ===============================
 exports.updatePetition = async (req, res) => {
   try {
     const petition = await Petition.findById(req.params.id);
 
     if (!petition) {
-      return res.status(404).json({ message: "Petition not found" });
+      return res.status(404).json({
+        message: "Petition not found"
+      });
     }
 
     if (petition.createdBy.toString() !== req.user.id) {
-      return res.status(403).json({ message: "Not authorized" });
+      return res.status(403).json({
+        message: "Not authorized"
+      });
     }
 
     petition.title = req.body.title || petition.title;
     petition.description = req.body.description || petition.description;
     petition.location = req.body.location || petition.location;
     petition.category = req.body.category || petition.category;
-    petition.status = req.body.status || petition.status;
 
     const updatedPetition = await petition.save();
 
     res.json({
       message: "Petition updated successfully",
-      updatedPetition,
+      petition: updatedPetition
     });
 
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({
+      message: "Error updating petition",
+      error: error.message
+    });
   }
 };
 
+// ===============================
+// UPDATE STATUS
+// ===============================
+exports.updateStatus = async (req, res) => {
+  try {
+    const { status } = req.body;
 
+    const petition = await Petition.findById(req.params.id);
+
+    if (!petition) {
+      return res.status(404).json({
+        message: "Petition not found"
+      });
+    }
+
+    petition.status = status;
+
+    await petition.save();
+
+    res.json({
+      message: "Status updated successfully",
+      petition
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      message: "Error updating status",
+      error: error.message
+    });
+  }
+};
+
+// ===============================
+// SIGN PETITION
+// ===============================
 exports.signPetition = async (req, res) => {
   try {
     const petition = await Petition.findById(req.params.id);
 
     if (!petition) {
-      return res.status(404).json({ message: "Petition not found" });
+      return res.status(404).json({
+        message: "Petition not found"
+      });
     }
 
     if (petition.signatures.includes(req.user.id)) {
-      return res.status(400).json({ message: "Already signed" });
+      return res.status(400).json({
+        message: "You already signed this petition"
+      });
     }
 
     petition.signatures.push(req.user.id);
     await petition.save();
 
-    res.json({ message: "Petition signed successfully" });
+    res.json({
+      message: "Petition signed successfully",
+      totalSignatures: petition.signatures.length
+    });
 
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({
+      message: "Error signing petition",
+      error: error.message
+    });
   }
 };
