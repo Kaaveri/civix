@@ -1,3 +1,7 @@
+const Petition = require("../models/Petition");
+const Vote = require("../models/Vote");
+const Response = require("../models/Response");
+
 const { 
   getPetitionStatusReportService, 
   getLocalityReportService, 
@@ -82,10 +86,80 @@ const exportReport = async (req, res) => {
     });
   }
 };
+// 🔹 Monthly Report
+const getMonthlyReport = async (req, res) => {
+  try {
+    const { month, year } = req.query;
 
+    if (!month || !year) {
+      return res.status(400).json({
+        message: "Month and year are required",
+      });
+    }
+
+    const parsedMonth = parseInt(month);
+    const parsedYear = parseInt(year);
+
+    if (parsedMonth < 1 || parsedMonth > 12) {
+      return res.status(400).json({
+        message: "Invalid month value",
+      });
+    }
+
+    const startDate = new Date(parsedYear, parsedMonth - 1, 1);
+    const endDate = new Date(parsedYear, parsedMonth, 1);
+
+    const totalPetitions = await Petition.countDocuments({
+      createdAt: { $gte: startDate, $lt: endDate },
+    });
+
+    const respondedPetitions = await Petition.countDocuments({
+      createdAt: { $gte: startDate, $lt: endDate },
+      responses: { $exists: true, $not: { $size: 0 } },
+    });
+
+    const pendingPetitions = await Petition.countDocuments({
+      createdAt: { $gte: startDate, $lt: endDate },
+      $or: [
+        { responses: { $exists: false } },
+        { responses: { $size: 0 } },
+      ],
+    });
+
+    const activeCitizensList = await Vote.distinct("user", {
+      createdAt: { $gte: startDate, $lt: endDate },
+    });
+
+    const totalVotes = await Vote.countDocuments({
+      createdAt: { $gte: startDate, $lt: endDate },
+    });
+
+    const totalComments = await Response.countDocuments({
+      createdAt: { $gte: startDate, $lt: endDate },
+    });
+
+    res.status(200).json({
+      totalPetitions,
+      respondedPetitions,
+      pendingPetitions,
+      activeCitizens: activeCitizensList.length,
+      totalVotes,
+      totalComments,
+    });
+
+  } catch (error) {
+    console.error("Monthly Report Error:", error);
+
+    res.status(500).json({
+      message: "Failed to generate monthly report",
+      error: error.message,
+    });
+  }
+};
 
 module.exports = { 
   getPetitionStatusReport, 
   getLocalityReport,
-  exportReport
+  exportReport,
+  getMonthlyReport
 };

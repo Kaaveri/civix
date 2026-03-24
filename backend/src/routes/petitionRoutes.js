@@ -11,6 +11,8 @@ const {
   updateStatus
 } = require("../controllers/petitionController");
 
+const { respondToPetition } = require("../controllers/responseController");
+
 // MIDDLEWARE
 const { protect } = require("../middleware/authMiddleware");
 
@@ -44,4 +46,8 @@ router.patch("/:id/status", protect, updateStatus);
 // ===============================
 router.post("/:id/sign", protect, signPetition);
 
+// ===============================
+// RESPOND TO PETITION
+// ===============================
+router.post( "/:id/respond",protect, respondToPetition);
 module.exports = router;

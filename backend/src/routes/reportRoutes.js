@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-const { getPetitionStatusReport , getLocalityReport , exportReport } = require("../controllers/reportController");
+const { getPetitionStatusReport , getLocalityReport , exportReport , getMonthlyReport } = require("../controllers/reportController");
+
 
 // Middlewares
 const { protect } = require("../middleware/authMiddleware");
@@ -33,4 +34,11 @@ router.get(
   exportReport
 );
 
+//Monthly report
+router.get(
+  "/monthly",
+  protect,
+  allowRoles("official", "admin"),
+  getMonthlyReport
+);
 module.exports = router;

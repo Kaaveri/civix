@@ -44,7 +44,13 @@ const petitionSchema = new mongoose.Schema(
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
       }
-    ]
+    ],
+     responses: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Response",
+      },
+    ],
   },
   {
     timestamps: true

@@ -53,7 +53,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/petitions", petitionRoutes);
 app.use("/api/polls", pollRoutes);
-app.use("/api/responses", responseRoutes);
+app.use("/api/responses", petitionRoutes);
 
 // ===============================
 // PROTECTED ROUTE (TEST)

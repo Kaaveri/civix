@@ -18,7 +18,7 @@ exports.createPetition = async (req, res) => {
       description,
       location,
       category,
-      status: "pending",
+      status: "under_review",
       createdBy: req.user.id
     });
 
@@ -72,7 +72,7 @@ exports.getPetitionById = async (req, res) => {
     const petition = await Petition.findById(req.params.id)
       .populate("createdBy", "name email")
       .populate("signatures", "name");
-
+      
     if (!petition) {
       return res.status(404).json({
         message: "Petition not found"
