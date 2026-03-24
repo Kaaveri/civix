@@ -1,8 +1,5 @@
 const Petition = require("../models/Petition");
 
-// ===============================
-// CREATE PETITION
-// ===============================
 exports.createPetition = async (req, res) => {
   try {
     const { title, description, location, category } = req.body;
@@ -35,9 +32,6 @@ exports.createPetition = async (req, res) => {
   }
 };
 
-// ===============================
-// GET ALL PETITIONS
-// ===============================
 exports.getAllPetitions = async (req, res) => {
   try {
     const filters = {};
@@ -64,9 +58,6 @@ exports.getAllPetitions = async (req, res) => {
   }
 };
 
-// ===============================
-// GET PETITION BY ID
-// ===============================
 exports.getPetitionById = async (req, res) => {
   try {
     const petition = await Petition.findById(req.params.id)
@@ -89,9 +80,6 @@ exports.getPetitionById = async (req, res) => {
   }
 };
 
-// ===============================
-// UPDATE PETITION (OWNER ONLY)
-// ===============================
 exports.updatePetition = async (req, res) => {
   try {
     const petition = await Petition.findById(req.params.id);
@@ -128,9 +116,6 @@ exports.updatePetition = async (req, res) => {
   }
 };
 
-// ===============================
-// UPDATE STATUS
-// ===============================
 exports.updateStatus = async (req, res) => {
   try {
     const { status } = req.body;
@@ -160,9 +145,6 @@ exports.updateStatus = async (req, res) => {
   }
 };
 
-// ===============================
-// SIGN PETITION
-// ===============================
 exports.signPetition = async (req, res) => {
   try {
     const petition = await Petition.findById(req.params.id);
@@ -190,6 +172,36 @@ exports.signPetition = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       message: "Error signing petition",
+      error: error.message
+    });
+  }
+};
+
+exports.deletePetition = async (req, res) => {
+  try {
+    const petition = await Petition.findById(req.params.id);
+
+    if (!petition) {
+      return res.status(404).json({
+        message: "Petition not found"
+      });
+    }
+
+    if (petition.createdBy.toString() !== req.user.id) {
+      return res.status(403).json({
+        message: "Not authorized"
+      });
+    }
+
+    await petition.deleteOne();
+
+    res.json({
+      message: "Petition deleted successfully"
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      message: "Error deleting petition",
       error: error.message
     });
   }

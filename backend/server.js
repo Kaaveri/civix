@@ -1,8 +1,7 @@
 // ===============================
 // LOAD ENV
 // ===============================
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 // ===============================
 // IMPORT PACKAGES
@@ -41,22 +40,22 @@ app.use(cors());
 app.use(express.json());
 
 // ===============================
-// TEST ROUTE
+// ROOT ROUTE
 // ===============================
 app.get("/", (req, res) => {
-  res.send("🚀 Civix backend server running successfully");
+  res.send("🚀 Civix backend running successfully");
 });
 
 // ===============================
 // API ROUTES
 // ===============================
-app.use("/api/auth", authRoutes);
+app.use("/api/auth", authRoutes);        // includes forgot/reset password
 app.use("/api/petitions", petitionRoutes);
 app.use("/api/polls", pollRoutes);
 app.use("/api/responses", petitionRoutes);
 
 // ===============================
-// PROTECTED ROUTE (TEST)
+// PROTECTED TEST ROUTE
 // ===============================
 app.use("/api/reports", reportRoutes);
 const { protect } = require("./src/middleware/authMiddleware");
@@ -78,10 +77,10 @@ app.use((req, res) => {
 });
 
 // ===============================
-// GLOBAL ERROR HANDLER (OPTIONAL)
+// GLOBAL ERROR HANDLER
 // ===============================
 app.use((err, req, res, next) => {
-  console.error("GLOBAL ERROR:", err);
+  console.error("❌ GLOBAL ERROR:", err);
 
   res.status(500).json({
     message: err.message || "Server Error"
