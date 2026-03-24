@@ -5,47 +5,47 @@ const petitionSchema = new mongoose.Schema(
     title: {
       type: String,
       required: true,
-      trim: true
+      trim: true,
     },
 
     description: {
       type: String,
       required: true,
-      trim: true
+      trim: true,
     },
 
     location: {
       type: String,
       required: true,
-      trim: true
+      trim: true,
     },
 
     category: {
       type: String,
       required: true,
-      trim: true
+      trim: true,
     },
 
-    // ✅ FIXED STATUS ENUM
     status: {
       type: String,
-      enum: ["active", "under_review", "closed"],
-      default: "under_review",
+      enum: ["pending", "active", "closed"],
+      default: "pending",
     },
 
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true
+      required: true,
     },
 
     signatures: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
-      }
+        ref: "User",
+      },
     ],
-     responses: [
+
+    responses: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Response",
@@ -53,8 +53,9 @@ const petitionSchema = new mongoose.Schema(
     ],
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
 
+// ✅ IMPORTANT: Correct export
 module.exports = mongoose.model("Petition", petitionSchema);

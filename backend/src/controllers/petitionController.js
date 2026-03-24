@@ -1,5 +1,8 @@
 const Petition = require("../models/Petition");
 
+// ===============================
+// CREATE PETITION
+// ===============================
 exports.createPetition = async (req, res) => {
   try {
     const { title, description, location, category } = req.body;
@@ -11,11 +14,11 @@ exports.createPetition = async (req, res) => {
     }
 
     const petition = await Petition.create({
-      title,
-      description,
-      location,
-      category,
-      status: "under_review",
+      title: title.trim(),
+      description: description.trim(),
+      location: location.trim(),
+      category: category.trim(),
+      status: "pending", // ✅ FIXED
       createdBy: req.user.id
     });
 
@@ -32,6 +35,9 @@ exports.createPetition = async (req, res) => {
   }
 };
 
+// ===============================
+// GET ALL PETITIONS
+// ===============================
 exports.getAllPetitions = async (req, res) => {
   try {
     const filters = {};
@@ -43,6 +49,13 @@ exports.getAllPetitions = async (req, res) => {
     const petitions = await Petition.find(filters)
       .populate("createdBy", "name email")
       .populate("signatures", "name")
+      .populate({
+        path: "responses",
+        populate: {
+          path: "officialId",
+          select: "name email"
+        }
+      })
       .sort({ createdAt: -1 });
 
     res.json({
@@ -58,12 +71,22 @@ exports.getAllPetitions = async (req, res) => {
   }
 };
 
+// ===============================
+// GET PETITION BY ID
+// ===============================
 exports.getPetitionById = async (req, res) => {
   try {
     const petition = await Petition.findById(req.params.id)
       .populate("createdBy", "name email")
-      .populate("signatures", "name");
-      
+      .populate("signatures", "name")
+      .populate({
+        path: "responses",
+        populate: {
+          path: "officialId",
+          select: "name email"
+        }
+      });
+
     if (!petition) {
       return res.status(404).json({
         message: "Petition not found"
@@ -80,6 +103,9 @@ exports.getPetitionById = async (req, res) => {
   }
 };
 
+// ===============================
+// UPDATE PETITION
+// ===============================
 exports.updatePetition = async (req, res) => {
   try {
     const petition = await Petition.findById(req.params.id);
@@ -96,16 +122,16 @@ exports.updatePetition = async (req, res) => {
       });
     }
 
-    petition.title = req.body.title || petition.title;
-    petition.description = req.body.description || petition.description;
-    petition.location = req.body.location || petition.location;
-    petition.category = req.body.category || petition.category;
+    if (req.body.title) petition.title = req.body.title.trim();
+    if (req.body.description) petition.description = req.body.description.trim();
+    if (req.body.location) petition.location = req.body.location.trim();
+    if (req.body.category) petition.category = req.body.category.trim();
 
-    const updatedPetition = await petition.save();
+    await petition.save();
 
     res.json({
       message: "Petition updated successfully",
-      petition: updatedPetition
+      petition
     });
 
   } catch (error) {
@@ -116,9 +142,20 @@ exports.updatePetition = async (req, res) => {
   }
 };
 
+// ===============================
+// UPDATE STATUS
+// ===============================
 exports.updateStatus = async (req, res) => {
   try {
     const { status } = req.body;
+
+    const validStatus = ["pending", "active", "closed"]; // ✅ FIXED
+
+    if (!validStatus.includes(status)) {
+      return res.status(400).json({
+        message: "Invalid status value"
+      });
+    }
 
     const petition = await Petition.findById(req.params.id);
 
@@ -129,7 +166,6 @@ exports.updateStatus = async (req, res) => {
     }
 
     petition.status = status;
-
     await petition.save();
 
     res.json({
@@ -145,6 +181,9 @@ exports.updateStatus = async (req, res) => {
   }
 };
 
+// ===============================
+// SIGN PETITION
+// ===============================
 exports.signPetition = async (req, res) => {
   try {
     const petition = await Petition.findById(req.params.id);
@@ -177,6 +216,9 @@ exports.signPetition = async (req, res) => {
   }
 };
 
+// ===============================
+// DELETE PETITION
+// ===============================
 exports.deletePetition = async (req, res) => {
   try {
     const petition = await Petition.findById(req.params.id);
