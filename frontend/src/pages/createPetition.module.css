@@ -1,0 +1,77 @@
+.container {
+  min-height: 100vh;
+  padding: 40px;
+
+  background: linear-gradient(
+    135deg,
+    #eef2ff 0%,
+    #fdf2f8 50%,
+    #ecfdf5 100%
+  );
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.card {
+  width: 700px;
+  padding: 35px;
+  border-radius: 16px;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  color: #6b7280;
+  margin-bottom: 25px;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.input {
+  width: 100%;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 120px;
+}
+
+.selectTrigger {
+  width: 100%;
+}
+
+.selectContent {
+  background: white;
+  border-radius: 10px;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.buttonPrimary {
+  background: #6366f1;
+  color: white;
+}
+
+.buttonOutline {
+  background: transparent;
+  border: 1px solid #d1d5db;
+}

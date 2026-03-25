@@ -1,0 +1,334 @@
+
+.container {
+  padding: 32px 40px;
+  min-height: 100vh;
+  /* Match registration page gradient */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.heading {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.backBtn {
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: none;
+  background: #e5e7eb;
+  color: #374151;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.backBtn:hover {
+  background: #d1d5db;
+  transform: translateY(-1px);
+}
+
+.createBtn {
+  padding: 10px 20px;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(102, 126, 234, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.createBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px rgba(118, 75, 162, 0.45);
+}
+
+/* ---------------- FILTER ROW ---------------- */
+
+.filterRow {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+
+.searchInput {
+  flex: 1;
+  min-width: 240px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+}
+
+.select {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background: white;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* ---------------- LIST ---------------- */
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+}
+
+/* ---------------- CARD ---------------- */
+
+.card {
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  transition: 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+/* HEADER (Title + Status) */
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cardHeader h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #111827;
+}
+
+.info p {
+  margin: 4px 0;
+  color: #6b7280;
+}
+
+/* CATEGORY */
+.category {
+  font-size: 13px;
+  background: #e5e7eb;
+  padding: 4px 12px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-top: 6px;
+}
+
+/* ---------------- STATUS ---------------- */
+
+.status {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.active {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.review {
+  background: #fef9c3;
+  color: #a16207;
+}
+
+.closed {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/* ---------------- PROGRESS SECTION ---------------- */
+
+.progressSection {
+  margin-top: 18px;
+}
+
+.signatureText {
+  font-weight: 600;
+  color: #2563eb;
+  font-size: 14px;
+}
+
+.progressBar {
+  width: 100%;
+  height: 14px; /* BIGGER BAR */
+  background: #e5e7eb;
+  border-radius: 20px;
+  margin-top: 8px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #16a34a);
+  border-radius: 20px;
+  transition: width 0.4s ease-in-out;
+}
+
+.percentage {
+  font-size: 13px;
+  margin-top: 6px;
+  color: #6b7280;
+}
+
+/* ---------------- ACTION BUTTONS ---------------- */
+
+.actions {
+  margin-top: 22px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.viewBtn,
+.signBtn,
+.signedBtn,
+.deleteBtn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font-size: 14px;
+  transition: 0.2s ease;
+  border: none;
+}
+
+/* View */
+.viewBtn {
+  background: #2563eb;
+  color: white;
+}
+
+.viewBtn:hover {
+  background: #1d4ed8;
+}
+
+/* Sign */
+.signBtn {
+  background: linear-gradient(90deg, #2563eb, #3b82f6);
+  color: white;
+}
+
+.signBtn:hover {
+  transform: scale(1.05);
+}
+
+/* Signed */
+.signedBtn {
+  background: #bbf7d0;
+  color: #15803d;
+  cursor: not-allowed;
+  font-weight: 600;
+}
+
+/* Delete */
+.deleteBtn {
+  background: #7c3aed;
+  color: white;
+}
+
+.deleteBtn:hover {
+  background: #6d28d9;
+}
+
+/* ---------------- MODAL ---------------- */
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  padding: 26px;
+  border-radius: 14px;
+  width: 340px;
+  animation: fadeIn 0.25s ease-in-out;
+}
+
+.modalInput {
+  width: 100%;
+  padding: 8px;
+  margin: 12px 0;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.confirmBtn {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 7px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.confirmBtn:hover {
+  background: #dc2626;
+}
+
+.cancelBtn {
+  background: #e5e7eb;
+  color: #374151;
+  border: none;
+  padding: 7px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.cancelBtn:hover {
+  background: #d1d5db;
+}
+
+.editBtn{
+  background:#2563eb;
+  color:white;
+  padding:8px 12px;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:5px;
+}
